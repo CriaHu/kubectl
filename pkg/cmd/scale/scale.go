@@ -250,7 +250,7 @@ func (o *ScaleOptions) RunScale() error {
 
 		// if the recorder makes a change, compute and create another patch
 		if mergePatch, err := o.Recorder.MakeRecordMergePatch(info.Object); err != nil {
-			klog.V(4).Infof("error recording current command: %v", err)
+			klog.V(4).InfoS("error recording current command","err", err)
 		} else if len(mergePatch) > 0 {
 			client, err := o.unstructuredClientForMapping(mapping)
 			if err != nil {
@@ -258,7 +258,7 @@ func (o *ScaleOptions) RunScale() error {
 			}
 			helper := resource.NewHelper(client, mapping)
 			if _, err := helper.Patch(info.Namespace, info.Name, types.MergePatchType, mergePatch, nil); err != nil {
-				klog.V(4).Infof("error recording reason: %v", err)
+				klog.V(4).InfoS("error recording reason","err", err)
 			}
 		}
 
